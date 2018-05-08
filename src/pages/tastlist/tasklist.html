@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Tasks
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-left (click)="addItem()">
+        <ion-icon name="add"></ion-icon> Add Item</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item-sliding #slidingitem *ngFor="let task of tasks | async">
+      <ion-item [ngClass]="{taskDone: task.status == 'done'}">
+        <!-- pipe with json for debugging-->
+        <!-- {{task | json}}  -->
+        {{task.title}}
+      </ion-item>
+
+      <!-- slide right items down here -->
+      <ion-item-options side='right' (ionSwipe)="removeTask(slidingitem, task)">
+        <button ion-button icon-only (click)='markAsDone(slidingitem, task)' color="secondary">
+          <ion-icon name="checkmark"></ion-icon>
+        </button>
+        <button ion-button icon-only expandable (click)="removeTask(slidingitem, task)" color="danger">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
